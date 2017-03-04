@@ -38,10 +38,8 @@ public class ProceduralTerrain : MonoBehaviour {
     public int width = 10;
 	public int multiMeshWidth = 3;
 	public float spacing = 1;
-	public float textureMultiplier = 2f;
-	public float heightMultiplier = 10f;
+	public float heightMultiplier = 1f;
 	public float waterLevel = 0.2f;
-	public float waterDepthMultiplier = 0.6f;
     public Shader terrainShader;
 
     //Terrain Storage
@@ -165,7 +163,7 @@ public class ProceduralTerrain : MonoBehaviour {
     {
         if (generationDone)
         {
-            meshes[sector].verts[x][z].y = height;
+            meshes[sector].verts[x][z].y = height * heightMultiplier;
             int OffsetX = (width - 1) * meshes[sector].row;
             int OffsetY = (width - 1) * meshes[sector].column;
             SetTextureColor(x + OffsetX, z + OffsetY, height);
@@ -175,7 +173,7 @@ public class ProceduralTerrain : MonoBehaviour {
 
     public void SetHeight(int column, int row, int x, int z, float height)
     {
-        if (meshMatrix.ContainsKey(row) && meshMatrix[row].ContainsKey(column)) meshMatrix[row][column].verts[x][z].y = height;
+        if (meshMatrix.ContainsKey(row) && meshMatrix[row].ContainsKey(column)) meshMatrix[row][column].verts[x][z].y = height * heightMultiplier;
         int OffsetX = (width - 1) * row;
         int OffsetY = (width - 1) * column;
         SetTextureColor(x + OffsetX, z + OffsetY, height);
@@ -201,7 +199,7 @@ public class ProceduralTerrain : MonoBehaviour {
 
         if (meshMatrix.ContainsKey(row) && meshMatrix[row].ContainsKey(column) && (localX < width && localZ < width))
         {
-            meshMatrix[row][column].verts[localX][localZ].y = height;
+            meshMatrix[row][column].verts[localX][localZ].y = height * heightMultiplier;
             int OffsetX = (width - 1) * row;
             int OffsetY = (width - 1) * column;
             SetTextureColor(localX + OffsetX, localZ + OffsetY, height);
